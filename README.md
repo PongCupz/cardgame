@@ -54,3 +54,7 @@ Modify the [`settings.php`](https://github.com/PongCupz/cardgame/blob/main/api/s
       'prefix'    => '',
     ],
 ```
+
+# API Document
+
+- Swagger API include in project after build project see [http://localhost:8082](http://localhost:8082)

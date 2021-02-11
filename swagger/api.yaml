@@ -1,0 +1,166 @@
+openapi: 3.0.0
+info:
+  title: API Card game
+  version: "1.0"
+servers:
+  - url: http://localhost:8080
+    description: Local server
+
+security:
+  - bearerAuth: []     
+
+paths:
+
+  /users:
+    post:
+      summary: Create new user
+      responses:
+        '200':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: string
+                    example : "1"
+                  id:
+                    type: string
+                    example : "10"
+                  global_best_score:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      type: integer
+                      format: int64
+                      example: [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+  /cards/new:
+    post:
+      summary: Create new game
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                  example: "1"
+      responses:
+        '200':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example : "10"
+                  best_score:
+                    type: integer
+                    example: 60  
+                  global_best_score:
+                    type: integer
+                    example: 50
+                  data:
+                    type: array
+                    items:
+                      type: integer
+                      format: int64
+                      example: [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+  /cards/{id}:
+    get:
+      summary: Get current game
+      parameters:
+        - name: game id
+          in: path
+          required: true
+          description: "Game Id"
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example : "10"
+                  user_id:
+                    type: string
+                    example : "10"
+                  click:
+                    type: integer
+                    example: 10  
+                  best_score:
+                    type: integer
+                    example: 60  
+                  global_best_score:
+                    type: integer
+                    example: 50
+                  data:
+                    type: array
+                    items:
+                      type: integer
+                      format: int64
+                      example: [-1, -1, 2, -1, 3, -1, 3, -1, -1, 3, -1, -1]
+  /cards/{game_id}:
+    patch:
+      summary: Select card
+      parameters:
+        - name: game id
+          in: path
+          required: true
+          description: "Game Id"
+          schema:
+            type: "string"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                click:
+                  type: integer
+                  example: 11
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example : "10"
+                  user_id:
+                    type: string
+                    example : "10"
+                  click:
+                    type: integer
+                    example: 10  
+                  best_score:
+                    type: integer
+                    example: 60  
+                  global_best_score:
+                    type: integer
+                    example: 50
+                  data:
+                    type: array
+                    items:
+                      type: integer
+                      format: int64
+                      example: [-1, -1, 2, -1, 3, -1, 3, -1, -1, 3, -1, -1]
+
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'
