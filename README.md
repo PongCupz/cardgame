@@ -1,30 +1,58 @@
-# vue-card
+# How to run this project
+> This project require docker-compose
 
-> card game project
+### Configure API and rabbitmq server name
 
-## Build Setup
+Modify the [`prod.env.js`](https://github.com/PongCupz/cardgame/blob/main/my-app/config/prod.env.js) file present in this repository
 
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
+```console
+'use strict'
+module.exports = {
+  NODE_ENV: '"production"',
+-  ROOT_API: '"http://localhost:8080"',
+-  ROOT_WS: '"ws://localhost:15675/ws"',
++  ROOT_API: '"http://{{servername}}:8080"',
++  ROOT_WS: '"ws://{{servername}}:15675/ws"',
+  GG_KEY: '"AIzaSyDdEEPcJpCni349iXn4W3z6HIC5N480Q0k"'
+}
 ```
+* Using `docker-compose` command:
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+```console
+$ docker-compose up -d
+```
+* Connect to server form port :80
+
+# Project structure
+
+- API using slim framwork PHP [http://localhost:8080](http://localhost:8080) source code in folder `api`
+- Database using mysql [http://localhost:8088](http://localhost:8088)
+- MQTT Protocol using Rabbitmq [http://localhost:15672](http://localhost:15672) (default user guest:guest)
+- Front UI using vuejs [http://localhost](http://localhost) source code in folder `my-app`
+- Load balance using nginx
+
+# Configure database
+
+Modify the [`docker-compose.yml`](https://github.com/PongCupz/cardgame/blob/main/docker-compose.yml) file
+
+```console
+    environment:
+      - MYSQL_ROOT_PASSWORD=123132123
+      - MYSQL_DATABASE=game
+      - MYSQL_USER=game
+      - MYSQL_PASSWORD=password
+```
+Modify the [`settings.php`](https://github.com/PongCupz/cardgame/blob/main/api/src/settings.php) file
+
+```console
+    'db' => [
+      'driver' => 'mysql',
+      'host' => 'db',
+      'database' => 'game',
+      'username' => 'game',
+      'password' => 'password',
+      'charset'   => 'utf8',
+      'collation' => 'utf8_unicode_ci',
+      'prefix'    => '',
+    ],
+```
