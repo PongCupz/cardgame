@@ -9,11 +9,10 @@ Modify the [`prod.env.js`](https://github.com/PongCupz/cardgame/blob/main/my-app
 'use strict'
 module.exports = {
   NODE_ENV: '"production"',
--  ROOT_API: '"http://localhost:8080"',
--  ROOT_WS: '"ws://localhost:15675/ws"',
-+  ROOT_API: '"http://{{servername}}:8080"',
-+  ROOT_WS: '"ws://{{servername}}:15675/ws"',
-  GG_KEY: '"AIzaSyDdEEPcJpCni349iXn4W3z6HIC5N480Q0k"'
+-   ROOT_API: '"http://localhost:8080"',
+-   ROOT_WS: '"ws://localhost:15675/ws"'
++   ROOT_API: '"http://{{servername}}:8080"',
++   ROOT_WS: '"ws://{{servername}}:15675/ws"'
 }
 ```
 * Using `docker-compose` command:
