@@ -1,7 +1,7 @@
 # How to run this project
 > This project require docker-compose
 
-### Configure API and rabbitmq server name
+### Configure API and rabbitmq server url
 
 Modify the [`prod.env.js`](https://github.com/PongCupz/cardgame/blob/main/my-app/config/prod.env.js) file present in this repository
 
