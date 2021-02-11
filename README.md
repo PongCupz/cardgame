@@ -5,8 +5,7 @@
 
 Modify the [`prod.env.js`](https://github.com/PongCupz/cardgame/blob/main/my-app/config/prod.env.js) file present in this repository
 
-```console
-'use strict'
+```diff
 module.exports = {
   NODE_ENV: '"production"',
 -   ROOT_API: '"http://localhost:8080"',
