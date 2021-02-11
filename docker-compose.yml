@@ -1,0 +1,65 @@
+version: '2'
+services:
+  lb:
+    image: bitnami/nginx
+    ports:
+      - 8080:8080
+      - 8088:8088
+      - 80:8090
+    depends_on:
+      - api
+      - phpmyadmin
+      - vue-ui
+    volumes:
+      - ./config/lb/nginx.conf:/opt/bitnami/nginx/conf/nginx.conf:ro
+      - ./config/lb/app.conf:/opt/bitnami/nginx/conf/vhosts/app.conf:ro
+  api:
+    image: bitnami/nginx
+    depends_on:
+      - api-phpfpm
+    volumes:
+      - ./config/api/nginx.conf:/opt/bitnami/nginx/conf/nginx.conf:ro
+      - ./config/api/app.conf:/opt/bitnami/nginx/conf/vhosts/app.conf:ro
+      - ./api:/app
+
+  api-phpfpm:
+    image: bitnami/php-fpm
+    volumes:
+      - ./dockers/api/phpfpm:/bitnami/php-fpm
+      - ./api:/app
+
+  db:
+    image: mariadb:10.1
+    container_name: lemp_mariadb
+    restart: always
+    volumes:
+      - ./mysql/initdb/:/docker-entrypoint-initdb.d
+      - ./mysql/data/:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123132123
+      - MYSQL_DATABASE=game
+      - MYSQL_USER=game
+      - MYSQL_PASSWORD=password
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: lemp-phpmyadmin
+    restart: always
+
+  rabbitmq:
+    build : ./rabbitmq 
+    hostname: my-rabbit
+    volumes:
+      - ./rabbitmq/etc/definitions.json:/etc/rabbitmq/definitions.json
+      - ./rabbitmq/etc/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./rabbitmq/data:/var/lib/rabbitmq/mnesia/rabbit@my-rabbit
+      - ./rabbitmq/logs:/var/log/rabbitmq/log
+    ports:
+      - 5672:5672
+      - 15672:15672
+      - 15675:15675
+
+  vue-ui:
+    build: ./my-app
+    volumes:
+      - ./config/app/my_server_block.conf:/opt/bitnami/nginx/conf/server_blocks/my_server_block.conf:ro
