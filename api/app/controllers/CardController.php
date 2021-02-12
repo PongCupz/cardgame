@@ -10,13 +10,6 @@ use App\Entity\User;
 
 class CardController extends Controller
 {
-  public function index(Request $request, Response $response, $args)
-  {
-    $res = new \stdClass();
-    $res->global_best_score = Score::best_score();
-
-    return $response->withJson($res);
-  }
 
   public function new(Request $request, Response $response, $args)
   {
